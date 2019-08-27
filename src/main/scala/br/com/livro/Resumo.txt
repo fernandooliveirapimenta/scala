@@ -1,0 +1,8 @@
+val vs var
+val = imutavel
+var = variavel
+
+case classes = classes que podem representar
+value objects no DDD, bom para modelar dados imutaveis,
+
+case object = nao posso instanciar um object por ser singleton
