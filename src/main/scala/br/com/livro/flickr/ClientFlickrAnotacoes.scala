@@ -125,3 +125,124 @@ object ApiScala extends App{
 class IntDobrado(val x: Int) extends AnyVal {
   def dobrado: Int = x * 2
 }
+
+object Colecoes extends App {
+
+  val listFoto: List[Foto] = List[Foto](new Foto(33, "f", "gdg", 3 ))
+
+  def imprimeFoto(f: Foto): String = {
+    s"${f.id}"
+  }
+
+  listFoto.foreach(f => println(imprimeFoto(f)))
+
+  val sets = Set[String]("2","2","Fernando","Pimenta")
+
+  val novoSets = sets + "Fer"
+  println(sets)
+
+  sets.foreach(println)
+  novoSets.foreach(print)
+
+  novoSets - "fer" foreach println
+
+  val listJeitoFeio = "a" :: "b" :: "c" :: Nil
+  val listNovoJeito: List[String] = "c" :: "a" :: Nil
+
+  println()
+  println()
+  println()
+
+//  listNovoJeito :+ "fefe" foreach println
+   listNovoJeito +: "fefe"
+
+  val strings: List[String] = List("Fernando", "Bruna", "tkdsjf", "b")
+
+  def varrer(): Unit = strings match {
+//      head :: tail
+    case a :: b => println(a)
+  }
+
+  def varrer2 = strings match {
+    case head  :: Nil => println(head)
+    case _ =>
+  }
+
+  println(varrer())
+  println(varrer2)
+
+  def printaLista(list: List[String]): Unit = {
+    list match {
+
+      case head :: Nil => println(head)
+
+      case head :: tail =>
+        println(head)
+        printaLista(tail)
+
+      case Nil =>
+    }
+  }
+
+  println()
+  println()
+  println()
+
+  printaLista(strings)
+}
+
+object Tuplas extends App {
+
+  val dadosFotos: (String, String) = ("Fefe","scala")
+
+  val (nome, linguagem) = dadosFotos
+
+  println(s"${dadosFotos._1} - ${dadosFotos._2}")
+  println(s"$nome - $linguagem")
+
+  def comMatch(): Unit = dadosFotos match {
+    case (nome: String, linguagem: String) => println(s"$nome, $linguagem")
+  }
+
+  println(comMatch())
+}
+
+object Mapas extends App {
+
+
+  val services = Map[String, String](
+    ("busca", "flickr.photos.search"),
+    ("tamanhos", "flickr.photos.getSizes")
+  )
+
+  services.foreach(println)
+
+  val mapaMelhot = Map(
+    "chave" -> "valor",
+    "fefe" -> "nando"
+  )
+
+  mapaMelhot.foreach(println)
+
+  println(services("busca"))
+
+  println(services.getOrElse("dskjfs", "dgd"))
+
+
+  val novoMap = services + ("Ruby" -> "Rails")
+  println(novoMap)
+
+  val removerMap = novoMap - "busca"
+  println(removerMap)
+
+  val atualizaMap = novoMap.updated("busca", "novo")
+  println(atualizaMap)
+
+}
+
+object Arrays extends App {
+
+  val array = Array("a","b","c")
+
+  println(array(1))
+}

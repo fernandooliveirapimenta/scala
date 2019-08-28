@@ -6,3 +6,5 @@ lazy val hello = (project in file("."))
     name := "scala",
     libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.5" % Test,
   )
+libraryDependencies += "org.scala-lang.modules" % "scala-xml_2.12" % "1.0.5"
+

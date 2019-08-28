@@ -5,6 +5,8 @@ class Foto(val id: Long,
            val title: String,
            val farm: Int) {
 
+
+  override def toString = s"Foto($id, $owner, $title, $farm)"
 }
 
 object Foto {
