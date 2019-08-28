@@ -1,5 +1,8 @@
 package br.com.livro.flickr
 
+import br.com.livro.flickr.ClassesAbstratasETraita.MediaSealed
+import br.com.livro.flickr.tipagemAvancada.FotoTA
+
 object ProgramacaoFuncional extends App{
 
   def te: String = "ola"
@@ -211,4 +214,201 @@ object tipagemAvancada extends App {
 //    (foto: FotoDetalhada) => println(foto)
 
 }
+
+object ForComprehensions extends App {
+
+  val tags = Set("scala", "java", "jvm")
+
+  def buscarFotos(tag: String): Set[String]
+  = Set("scala","devdojo")
+
+
+  tags.foreach {
+    tag =>
+      val fotos = buscarFotos(tag)
+      fotos foreach println
+  }
+
+  println()
+  println()
+  println()
+
+  for {
+    tag <- tags
+    foto <- buscarFotos(tag)
+  } println(foto)
+
+
+  val fotos = tags.flatMap(tag => buscarFotos(tag))
+  fotos foreach println
+
+  println()
+  println()
+  println()
+
+  val fotosAcucar = for {
+    tag <- tags
+    foto <- buscarFotos(tag)
+  } yield foto
+
+
+  fotosAcucar foreach println
+
+  println()
+  println()
+  println()
+
+  val nomesFiltrados = tags.filter(_.startsWith("j"))
+    .flatMap(tag => buscarFotos(tag))
+
+  nomesFiltrados foreach println
+
+
+  println()
+  println()
+  println()
+
+  val nomesFiltradosFor = for {
+    tag <- tags if tag.startsWith("j")
+    foto <- buscarFotos(tag)
+  } yield foto
+
+  nomesFiltradosFor foreach println
+
+
+  println()
+  println()
+  println()
+
+  val tagsOptional: Option[Set[String]] =
+    Some(Set("java","scala","javascript","dart","kotlin","C#"))
+
+  val tagText: String = tagsOptional.map(t => "&tags=" + t).getOrElse("")
+
+  println(tagText)
+
+  val tagsSemOptional: Set[String] =
+    Set("java","scala","javascript","dart","kotlin","C#")
+
+  val semOpt = tagsSemOptional.map(t => "&tags=" + t)
+  println(semOpt)
+
+  println()
+  println()
+
+  val tagText2 = for {
+    t <- tagsOptional
+  } yield "&tags=" + t
+
+  println(tagText2)
+
+  println()
+  println()
+  println()
+
+  val userOpt = Option("fefe")
+  val passOpt = Option("123")
+
+  def autenticar(u: String, p: String): Option[String] =
+    if(u == "fefe" && p == "123") Some("token")
+    else None
+
+  val tokenOpt: Option[String] = for {
+    user <- userOpt
+    pass <- passOpt
+    token <- autenticar(user, pass)
+  } yield token
+
+
+
+
+}
+
+object ClassesAbstratasETraita extends App {
+
+//  abstract class ResponsParser {
+//    def parse(str: String): Set[FotoTA]
+//  }
+
+
+
+  trait Logger {
+    def log(msg: String): Unit = println(msg)
+  }
+
+  trait ResponsParser {
+    def parse(str: String): Set[FotoTA]
+  }
+
+  abstract class XMLParser extends ResponsParser with Logger {
+    override def parse(str: String): Set[FotoTA] = ???
+  }
+
+  class JsonParser extends ResponsParser with Logger with Ordered[JsonParser]{
+    override def parse(str: String): Set[FotoTA] = ???
+
+    override def compare(that: JsonParser): Int = ???
+  }
+
+  trait ConsoleLogger extends Logger {
+
+    override def log(msg: String): Unit
+    = println(msg)
+
+  }
+
+  val parser = new JsonParser with ConsoleLogger
+
+  sealed abstract class MediaSealed(val value: String)
+  object FotosS extends MediaSealed("fotos")
+  object VideosS extends MediaSealed("videos")
+  object TodasS extends MediaSealed("all")
+
+
+  trait LogBase {
+    def log(msg: String): Unit
+  }
+
+  trait LogArquivo extends LogBase {
+   abstract override def log(msg: String): Unit
+    = {
+      super.log(msg)
+      println(s"logando $msg no arquivo")
+    }
+  }
+
+  trait LogConsole extends LogBase{
+   abstract override def log(msg: String): Unit = {
+      super.log(msg)
+      println(s"logando $msg no console")
+    }
+  }
+
+  class EmptyLogger extends LogBase {
+    override def log(msg: String): Unit = {}
+  }
+
+  println()
+  println()
+  println()
+  new EmptyLogger with LogArquivo {}.log("olá trait")
+
+  println()
+  println()
+  println()
+
+  val logger = new EmptyLogger with LogArquivo with LogConsole
+
+  logger.log("importante!")
+
+
+  println()
+  println()
+  println()
+
+  val logger2 = new EmptyLogger with LogConsole with LogArquivo
+
+  logger.log("importante!")
+}
+
 

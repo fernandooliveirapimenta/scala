@@ -10,6 +10,7 @@ class Foto(val id: Long,
 }
 
 object Foto {
+
   def unapply(foto: Foto):
   Option[(Long, String, String, Int)] =
     Some((foto.id, foto.owner, foto.title, foto.farm))
@@ -18,4 +19,5 @@ object Foto {
    owner: String,
    title: String,
    farm: Int ): Foto = new Foto(id,owner,title,farm)
+
 }

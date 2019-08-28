@@ -2,6 +2,8 @@ package br.com.livro.flickr
 
 import java.util.Properties
 
+import br.com.livro.flickr.ClassesAbstratasETraita.MediaSealed
+
 object ClientFlickrAnotacoes extends App{
 
   val FOTOS = 1
@@ -246,3 +248,4 @@ object Arrays extends App {
 
   println(array(1))
 }
+
